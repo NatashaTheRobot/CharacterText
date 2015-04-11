@@ -60,7 +60,7 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
         layoutManager.delegate = self;
     }
     
-    func layoutManager(layoutManager: NSLayoutManager!, didCompleteLayoutForTextContainer textContainer: NSTextContainer!, atEnd layoutFinishedFlag: Bool) {
+    func layoutManager(layoutManager: NSLayoutManager, didCompleteLayoutForTextContainer textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
         calculateTextLayers();
     }
 
@@ -99,8 +99,8 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
     func internalAttributedText() -> NSMutableAttributedString! {
         let wordRange = NSMakeRange(0, self.attributedText.length);
         var attributedText = NSMutableAttributedString(string: self.text);
-        attributedText.addAttribute(kCTForegroundColorAttributeName , value:self.textColor.CGColor, range:wordRange);
-        attributedText.addAttribute(kCTFontAttributeName , value:self.font, range:wordRange);
+        attributedText.addAttribute(String(kCTForegroundColorAttributeName) , value:self.textColor.CGColor, range:wordRange);
+        attributedText.addAttribute(String(kCTFontAttributeName) , value:self.font, range:wordRange);
         return attributedText;
     }
     

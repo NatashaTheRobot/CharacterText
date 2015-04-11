@@ -28,13 +28,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         flickrKit.call(FKFlickrInterestingnessGetList()) { response, error in
             if let response = response {
                 var photoUrls = Array<FlickrPhoto>()
-                var photos: NSDictionary = response["photos"] as NSDictionary;
-                var photoArray: NSArray = photos["photo"] as NSArray;
+                var photos: NSDictionary = response["photos"] as! NSDictionary;
+                var photoArray: NSArray = photos["photo"] as! NSArray;
                 //Get Photos
                 for photoData : AnyObject in photoArray {
-                    var photoDict: NSDictionary = photoData as NSDictionary
-                    var url = flickrKit.photoURLForSize(FKPhotoSizeMedium800, fromPhotoDictionary: photoDict)
-                    var newPhoto = FlickrPhoto(photoURL: url, title: photoDict["title"] as String)
+                    var photoDict: NSDictionary = photoData as! NSDictionary
+                    var url = flickrKit.photoURLForSize(FKPhotoSizeMedium800, fromPhotoDictionary: photoDict as [NSObject : AnyObject])
+                    var newPhoto = FlickrPhoto(photoURL: url, title: photoDict["title"] as! String)
                     photoUrls.append(newPhoto)
                 }
                 
@@ -60,13 +60,13 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var collectionViewCell : FlickrCollectionViewCell! = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCollectionViewCell", forIndexPath: indexPath) as FlickrCollectionViewCell
+        var collectionViewCell : FlickrCollectionViewCell! = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCollectionViewCell", forIndexPath: indexPath) as! FlickrCollectionViewCell
         
         collectionViewCell.configure(dataArray[indexPath.row])
         return collectionViewCell
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page: Int = Int(scrollView.contentOffset.x/CGRectGetWidth(self.view.bounds))
         var photo = dataArray[page];
         characterLabel.text = photo.title

@@ -22,7 +22,7 @@ class CLMLayerAnimation: NSObject {
             let oldLayer = self.animatableLayerCopy(layer)
             animation.completionClosure = completion
             
-            if let layerAnimations = animations? {
+            if let layerAnimations = animations {
                 CATransaction.begin()
                 CATransaction.setDisableActions(true)
                 layerAnimations()
@@ -31,14 +31,14 @@ class CLMLayerAnimation: NSObject {
             
             animationGroup = self.groupAnimationsForDifferences(oldLayer, newLayer: layer)
             
-            if let differenceAnimation = animationGroup? {
+            if let differenceAnimation = animationGroup {
                 differenceAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
                 differenceAnimation.duration = duration
                 differenceAnimation.beginTime = CACurrentMediaTime()
                 differenceAnimation.delegate = animation
                 layer.addAnimation(differenceAnimation, forKey: nil)
             }else{
-                if let completion = animation.completionClosure? {
+                if let completion = animation.completionClosure {
                     completion(finished: true)
                 }
             }
@@ -107,7 +107,7 @@ class CLMLayerAnimation: NSObject {
     }
     
     override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {
-        if let completion = completionClosure? {
+        if let completion = completionClosure {
             completion(finished: true)
         }
     }
