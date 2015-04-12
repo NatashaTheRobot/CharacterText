@@ -20,7 +20,7 @@ class FadingLabel: CharacterLabel {
     set {
         super.attributedText = newValue
         self.animateOut() { finished in
-            self.animateIn(nil);
+            self.animateIn(nil)
         }
     }
     
@@ -38,7 +38,7 @@ class FadingLabel: CharacterLabel {
             var delay = NSTimeInterval(arc4random()%100)/500.0
             
             CLMLayerAnimation.animation(textLayer, duration:duration, delay:delay, animations: {
-                textLayer.opacity = 1;
+                textLayer.opacity = 1
             }, completion:nil)
             
         }
@@ -60,7 +60,7 @@ class FadingLabel: CharacterLabel {
                 longestAnimationIndex = index
             }
             CLMLayerAnimation.animation(textLayer, duration:duration, delay:delay, animations: {
-                textLayer.opacity = 0;
+                textLayer.opacity = 0
                 }, completion:{ finished in
                     textLayer.removeFromSuperlayer()
                     if textLayer == self.oldCharacterTextLayers[longestAnimationIndex] {

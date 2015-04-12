@@ -12,9 +12,9 @@ import CoreText
 
 class CharacterLabel: UILabel, NSLayoutManagerDelegate {
 
-    let textStorage = NSTextStorage(string: " ");
-    let textContainer = NSTextContainer();
-    let layoutManager = NSLayoutManager();
+    let textStorage = NSTextStorage(string: " ")
+    let textContainer = NSTextContainer()
+    let layoutManager = NSLayoutManager()
     var oldCharacterTextLayers = Array<CATextLayer>()
     var characterTextLayers = Array<CATextLayer>()
     
@@ -129,12 +129,12 @@ class CharacterLabel: UILabel, NSLayoutManagerDelegate {
         let layoutRect = layoutManager.usedRectForTextContainer(textContainer)
         
         for var index = wordRange.location; index < wordRange.length+wordRange.location; index += 0 {
-            let glyphRange = NSMakeRange(index, 1);
-            let characterRange = layoutManager.characterRangeForGlyphRange(glyphRange, actualGlyphRange:nil);
+            let glyphRange = NSMakeRange(index, 1)
+            let characterRange = layoutManager.characterRangeForGlyphRange(glyphRange, actualGlyphRange:nil)
             let textContainer = layoutManager.textContainerForGlyphAtIndex(index, effectiveRange: nil)
             var glyphRect = layoutManager.boundingRectForGlyphRange(glyphRange, inTextContainer: textContainer!)
             var location = layoutManager.locationForGlyphAtIndex(index)
-            var kerningRange = layoutManager.rangeOfNominallySpacedGlyphsContainingIndex(index);
+            var kerningRange = layoutManager.rangeOfNominallySpacedGlyphsContainingIndex(index)
             
             if kerningRange.length > 1 && kerningRange.location == index {
                 if count(characterTextLayers) > 0 {
@@ -146,16 +146,16 @@ class CharacterLabel: UILabel, NSLayoutManagerDelegate {
             }
             
             
-            glyphRect.origin.y += location.y-(glyphRect.height/2)+(self.bounds.size.height/2)-(layoutRect.size.height/2);
+            glyphRect.origin.y += location.y-(glyphRect.height/2)+(self.bounds.size.height/2)-(layoutRect.size.height/2)
             
             
-            var textLayer = CATextLayer(frame: glyphRect, string: attributedString.attributedSubstringFromRange(characterRange));
+            var textLayer = CATextLayer(frame: glyphRect, string: attributedString.attributedSubstringFromRange(characterRange))
             initialTextLayerAttributes(textLayer)
             
-            layer.addSublayer(textLayer);
-            characterTextLayers.append(textLayer);
+            layer.addSublayer(textLayer)
+            characterTextLayers.append(textLayer)
             
-            index += characterRange.length;
+            index += characterRange.length
         }
     }
     
@@ -165,23 +165,23 @@ class CharacterLabel: UILabel, NSLayoutManagerDelegate {
     
     func internalAttributedText() -> NSMutableAttributedString! {
         let wordRange = NSMakeRange(0, count(textStorage.string.utf16))
-        var attributedText = NSMutableAttributedString(string: textStorage.string);
-        attributedText.addAttribute(String(kCTForegroundColorAttributeName) , value:self.textColor.CGColor, range:wordRange);
-        attributedText.addAttribute(String(kCTFontAttributeName) , value:self.font, range:wordRange);
+        var attributedText = NSMutableAttributedString(string: textStorage.string)
+        attributedText.addAttribute(String(kCTForegroundColorAttributeName) , value:self.textColor.CGColor, range:wordRange)
+        attributedText.addAttribute(String(kCTFontAttributeName) , value:self.font, range:wordRange)
         
         var paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = self.textAlignment
         attributedText.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range: wordRange)
         
-        return attributedText;
+        return attributedText
     }
     
     func cleanOutOldCharacterTextLayers() {
         //Remove all text layers from the superview
         for textLayer in oldCharacterTextLayers {
-            textLayer.removeFromSuperlayer();
+            textLayer.removeFromSuperlayer()
         }
         //clean out the text layer
-        oldCharacterTextLayers.removeAll(keepCapacity: false);
+        oldCharacterTextLayers.removeAll(keepCapacity: false)
     }
 }

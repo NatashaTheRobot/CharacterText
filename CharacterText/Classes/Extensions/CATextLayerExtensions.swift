@@ -11,9 +11,9 @@ import UIKit
 
 extension CATextLayer {
     convenience init(frame: CGRect, string: NSAttributedString) {
-        self.init();
-        self.contentsScale = UIScreen.mainScreen().scale;
-        self.frame = frame;
-        self.string = string;
+        self.init()
+        self.contentsScale = UIScreen.mainScreen().scale
+        self.frame = frame
+        self.string = string
     }
 }

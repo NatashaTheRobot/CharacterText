@@ -42,7 +42,7 @@ class CLMLayerAnimation: NSObject {
                     completion(finished: true)
                 }
             }
-        };
+        }
         
         return animation
     }
@@ -103,7 +103,7 @@ class CLMLayerAnimation: NSObject {
         layerCopy.bounds = layer.bounds
         layerCopy.position = layer.position
         
-        return layerCopy;
+        return layerCopy
     }
     
     override func animationDidStop(anim: CAAnimation!, finished flag: Bool) {

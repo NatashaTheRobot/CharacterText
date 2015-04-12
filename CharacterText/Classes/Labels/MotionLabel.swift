@@ -24,14 +24,14 @@ class MotionLabel: CharacterLabel {
             return
         }
         
-        super.attributedText = newValue;
+        super.attributedText = newValue
         
         let matches = self.matchingCharacterRanges(newValue.string)
         oldMatchingCharacters = matches.oldMatches
         newMatchingCharacters = matches.newMatches
         
-        self.animateOut(nil);
-        self.animateIn(nil);
+        self.animateOut(nil)
+        self.animateIn(nil)
     }
     
     }
@@ -46,19 +46,19 @@ class MotionLabel: CharacterLabel {
         for textLayer in characterTextLayers {
             
             if let oldMatchingIndex = newMatchingCharacters[index] {
-                textLayer.opacity = 0;
+                textLayer.opacity = 0
             }else{
                 let scaleTransform = CATransform3DMakeScale(0.2, 0.2, 1)
                 textLayer.transform = scaleTransform
                 
                 CLMLayerAnimation.animation(textLayer, duration:0.3, delay:NSTimeInterval(index)*0.01, animations: {
                     textLayer.transform = CATransform3DIdentity
-                    textLayer.opacity = 1;
+                    textLayer.opacity = 1
                     }, completion:nil)
                 
             }
             
-            ++index;
+            ++index
         }
     }
     
@@ -96,7 +96,7 @@ class MotionLabel: CharacterLabel {
                 
                 CLMLayerAnimation.animation(textLayer, duration:0.3, delay:NSTimeInterval(index)*0.01, animations: {
                     textLayer.transform = scaleTransform
-                    textLayer.opacity = 0;
+                    textLayer.opacity = 0
                     }, completion: { finished in
                         
                         textLayer.removeFromSuperlayer()
@@ -109,7 +109,7 @@ class MotionLabel: CharacterLabel {
                     })
             }
             
-            ++index;
+            ++index
         }
     }
     
@@ -127,7 +127,7 @@ class MotionLabel: CharacterLabel {
         
         for characterLayer in oldCharacterTextLayers {
             if startingInnerIndex >= characterTextLayersEndIndex {
-                break;
+                break
             }
             
             let character = characterLayer.string as! NSAttributedString
