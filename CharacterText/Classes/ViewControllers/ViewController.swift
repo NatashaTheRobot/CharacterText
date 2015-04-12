@@ -12,7 +12,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     
     @IBOutlet var collectionView: UICollectionView!
     var dataArray = Array<FlickrPhoto>()
-    var characterLabel: MotionLabel!;
+    var characterLabel: MotionLabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +28,18 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         flickrKit.call(FKFlickrInterestingnessGetList()) { response, error in
             if let response = response {
                 var photoUrls = Array<FlickrPhoto>()
-                var photos: NSDictionary = response["photos"] as NSDictionary;
-                var photoArray: NSArray = photos["photo"] as NSArray;
+                var photos: NSDictionary = response["photos"] as! NSDictionary
+                var photoArray: NSArray = photos["photo"] as! NSArray
                 //Get Photos
                 for photoData : AnyObject in photoArray {
-                    var photoDict: NSDictionary = photoData as NSDictionary
-                    var url = flickrKit.photoURLForSize(FKPhotoSizeMedium800, fromPhotoDictionary: photoDict)
-                    var newPhoto = FlickrPhoto(photoURL: url, title: photoDict["title"] as String)
+                    var photoDict: NSDictionary = photoData as! NSDictionary
+                    var url = flickrKit.photoURLForSize(FKPhotoSizeMedium800, fromPhotoDictionary: photoDict as [NSObject : AnyObject])
+                    var newPhoto = FlickrPhoto(photoURL: url, title: photoDict["title"] as! String)
                     photoUrls.append(newPhoto)
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.dataArray = Array<FlickrPhoto>(photoUrls);
+                    self.dataArray = Array<FlickrPhoto>(photoUrls)
                     self.collectionView.reloadData()
                     })
             }
@@ -48,7 +48,7 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func setupCharacterLabel() {
-        characterLabel = MotionLabel(frame: CGRectInset(self.view.bounds, 0, 200));
+        characterLabel = MotionLabel(frame: CGRectInset(self.view.bounds, 0, 200))
         characterLabel.textAlignment = NSTextAlignment.Center
         characterLabel.textColor = UIColor.whiteColor()
         characterLabel.text = "You"
@@ -60,22 +60,22 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var collectionViewCell : FlickrCollectionViewCell! = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCollectionViewCell", forIndexPath: indexPath) as FlickrCollectionViewCell
+        var collectionViewCell : FlickrCollectionViewCell! = collectionView.dequeueReusableCellWithReuseIdentifier("FlickrCollectionViewCell", forIndexPath: indexPath) as! FlickrCollectionViewCell
         
         collectionViewCell.configure(dataArray[indexPath.row])
         return collectionViewCell
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page: Int = Int(scrollView.contentOffset.x/CGRectGetWidth(self.view.bounds))
-        var photo = dataArray[page];
+        var photo = dataArray[page]
         characterLabel.text = photo.title
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView!, delecerate: Bool) {
         if !delecerate {
             let page: Int = Int(scrollView.contentOffset.x/CGRectGetWidth(self.view.bounds))
-            var photo = dataArray[page];
+            var photo = dataArray[page]
             characterLabel.text = photo.title
         }
     }

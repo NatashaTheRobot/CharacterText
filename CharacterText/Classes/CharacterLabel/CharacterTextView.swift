@@ -21,7 +21,7 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
     }
     
     set {
-        self.attributedText = NSAttributedString(string: newValue);
+        self.attributedText = NSAttributedString(string: newValue)
     }
     
     }
@@ -32,18 +32,18 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
     }
     
     set {
-        cleanOutOldCharacterTextLayers();
-        oldCharacterTextLayers = Array<CALayer>(characterTextLayers);
-        var newAttributedText = NSMutableAttributedString(attributedString: newValue);
-        newAttributedText.addAttribute(NSForegroundColorAttributeName, value:UIColor.clearColor(), range:NSMakeRange(0, newValue.length));
-        super.attributedText = newAttributedText;
+        cleanOutOldCharacterTextLayers()
+        oldCharacterTextLayers = Array<CALayer>(characterTextLayers)
+        var newAttributedText = NSMutableAttributedString(attributedString: newValue)
+        newAttributedText.addAttribute(NSForegroundColorAttributeName, value:UIColor.clearColor(), range:NSMakeRange(0, newValue.length))
+        super.attributedText = newAttributedText
     }
     
     }
         
     override init(frame: CGRect, textContainer: NSTextContainer!) {
-        super.init(frame: frame, textContainer: textContainer);
-        setupLayoutManager();
+        super.init(frame: frame, textContainer: textContainer)
+        setupLayoutManager()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -52,30 +52,30 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
     }
     
     override func awakeFromNib()  {
-        super.awakeFromNib();
-        setupLayoutManager();
+        super.awakeFromNib()
+        setupLayoutManager()
     }
     
     func setupLayoutManager() {
-        layoutManager.delegate = self;
+        layoutManager.delegate = self
     }
     
-    func layoutManager(layoutManager: NSLayoutManager!, didCompleteLayoutForTextContainer textContainer: NSTextContainer!, atEnd layoutFinishedFlag: Bool) {
-        calculateTextLayers();
+    func layoutManager(layoutManager: NSLayoutManager, didCompleteLayoutForTextContainer textContainer: NSTextContainer?, atEnd layoutFinishedFlag: Bool) {
+        calculateTextLayers()
     }
 
     func calculateTextLayers() {
         
-        let wordRange = NSMakeRange(0, self.attributedText.length);
-        let attributedString = self.internalAttributedText();
+        let wordRange = NSMakeRange(0, self.attributedText.length)
+        let attributedString = self.internalAttributedText()
         
         for var index = wordRange.location; index < wordRange.length+wordRange.location; index += 0 {
-            let glyphRange = NSMakeRange(index, 1);
-            let characterRange = layoutManager.characterRangeForGlyphRange(glyphRange, actualGlyphRange:nil);
-            let textContainer = layoutManager.textContainerForGlyphAtIndex(index, effectiveRange: nil);
-            var glyphRect = layoutManager.boundingRectForGlyphRange(glyphRange, inTextContainer: textContainer!);
-            var location = layoutManager.locationForGlyphAtIndex(index);
-            var kerningRange = layoutManager.rangeOfNominallySpacedGlyphsContainingIndex(index);
+            let glyphRange = NSMakeRange(index, 1)
+            let characterRange = layoutManager.characterRangeForGlyphRange(glyphRange, actualGlyphRange:nil)
+            let textContainer = layoutManager.textContainerForGlyphAtIndex(index, effectiveRange: nil)
+            var glyphRect = layoutManager.boundingRectForGlyphRange(glyphRange, inTextContainer: textContainer!)
+            var location = layoutManager.locationForGlyphAtIndex(index)
+            var kerningRange = layoutManager.rangeOfNominallySpacedGlyphsContainingIndex(index)
             
             if kerningRange.length > 1 && kerningRange.location == index {
                 var previousLayer = self.characterTextLayers[self.characterTextLayers.endIndex]
@@ -85,31 +85,31 @@ class CharacterTextView: UITextView, NSLayoutManagerDelegate {
             }
 
             
-            glyphRect.origin.y += location.y-(glyphRect.height/2);
-            var textLayer = CATextLayer(frame: glyphRect, string: attributedString.attributedSubstringFromRange(characterRange));
+            glyphRect.origin.y += location.y-(glyphRect.height/2)
+            var textLayer = CATextLayer(frame: glyphRect, string: attributedString.attributedSubstringFromRange(characterRange))
             
-            layer.addSublayer(textLayer);
-            characterTextLayers.append(textLayer);
+            layer.addSublayer(textLayer)
+            characterTextLayers.append(textLayer)
             
-            let stepGlyphRange = layoutManager.glyphRangeForCharacterRange(characterRange, actualCharacterRange:nil);
-            index += stepGlyphRange.length;
+            let stepGlyphRange = layoutManager.glyphRangeForCharacterRange(characterRange, actualCharacterRange:nil)
+            index += stepGlyphRange.length
         }
     }
     
     func internalAttributedText() -> NSMutableAttributedString! {
-        let wordRange = NSMakeRange(0, self.attributedText.length);
-        var attributedText = NSMutableAttributedString(string: self.text);
-        attributedText.addAttribute(kCTForegroundColorAttributeName , value:self.textColor.CGColor, range:wordRange);
-        attributedText.addAttribute(kCTFontAttributeName , value:self.font, range:wordRange);
-        return attributedText;
+        let wordRange = NSMakeRange(0, self.attributedText.length)
+        var attributedText = NSMutableAttributedString(string: self.text)
+        attributedText.addAttribute(String(kCTForegroundColorAttributeName) , value:self.textColor.CGColor, range:wordRange)
+        attributedText.addAttribute(String(kCTFontAttributeName) , value:self.font, range:wordRange)
+        return attributedText
     }
     
     func cleanOutOldCharacterTextLayers() {
         //Remove all text layers from the superview
         for textLayer in oldCharacterTextLayers {
-            textLayer.removeFromSuperlayer();
+            textLayer.removeFromSuperlayer()
         }
         //clean out the text layer
-        characterTextLayers.removeAll(keepCapacity: false);
+        characterTextLayers.removeAll(keepCapacity: false)
     }
 }
